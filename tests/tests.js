@@ -1,6 +1,6 @@
 /* global $, module, test, equal, ok */
 
-;(function () {
+; (function () {
 
 	'use strict';
 
@@ -48,37 +48,37 @@
 
 	var json = '[' +
 		'{' +
-			'"text": "Parent 1",' +
-			'"nodes": [' +
-				'{' +
-					'"text": "Child 1",' +
-					'"nodes": [' +
-						'{' +
-							'"text": "Grandchild 1"' +
-						'},' +
-						'{' +
-							'"text": "Grandchild 2"' +
-						'}' +
-					']' +
-				'},' +
-				'{' +
-					'"text": "Child 2"' +
-				'}' +
-			']' +
+		'"text": "Parent 1",' +
+		'"nodes": [' +
+		'{' +
+		'"text": "Child 1",' +
+		'"nodes": [' +
+		'{' +
+		'"text": "Grandchild 1"' +
 		'},' +
 		'{' +
-			'"text": "Parent 2"' +
-		'},' +
-		'{' +
-			'"text": "Parent 3"' +
-		'},' +
-		'{' +
-			'"text": "Parent 4"' +
-		'},' +
-		'{' +
-			'"text": "Parent 5"' +
+		'"text": "Grandchild 2"' +
 		'}' +
-	']';
+		']' +
+		'},' +
+		'{' +
+		'"text": "Child 2"' +
+		'}' +
+		']' +
+		'},' +
+		'{' +
+		'"text": "Parent 2"' +
+		'},' +
+		'{' +
+		'"text": "Parent 3"' +
+		'},' +
+		'{' +
+		'"text": "Parent 4"' +
+		'},' +
+		'{' +
+		'"text": "Parent 5"' +
+		'}' +
+		']';
 
 	module('Options');
 
@@ -88,13 +88,13 @@
 			options = getOptions(el);
 		ok(options, 'Defaults created ok');
 		equal(options.levels, 2, 'levels default ok');
-		equal(options.expandIcon, 'glyphicon glyphicon-plus', 'expandIcon default ok');
-		equal(options.collapseIcon, 'glyphicon glyphicon-minus', 'collapseIcon default ok');
-		equal(options.emptyIcon, 'glyphicon', 'emptyIcon default ok');
+		equal(options.expandIcon, 'fas fa-plus', 'expandIcon default ok');
+		equal(options.collapseIcon, 'fas fa-minus', 'collapseIcon default ok');
+		equal(options.emptyIcon, 'fas', 'emptyIcon default ok');
 		equal(options.nodeIcon, '', 'nodeIcon default ok');
 		equal(options.selectedIcon, '', 'selectedIcon default ok');
-		equal(options.checkedIcon, 'glyphicon glyphicon-check', 'checkedIcon default ok');
-		equal(options.uncheckedIcon, 'glyphicon glyphicon-unchecked', 'uncheckedIcon default ok');
+		equal(options.checkedIcon, 'far fa-check-square', 'checkedIcon default ok');
+		equal(options.uncheckedIcon, 'far fa-square', 'uncheckedIcon default ok');
 		equal(options.color, undefined, 'color default ok');
 		equal(options.backColor, undefined, 'backColor default ok');
 		equal(options.borderColor, undefined, 'borderColor default ok');
@@ -125,13 +125,13 @@
 		// Then test user options are correctly set
 		var opts = {
 			levels: 99,
-			expandIcon: 'glyphicon glyphicon-expand',
-			collapseIcon: 'glyphicon glyphicon-collapse',
-			emptyIcon: 'glyphicon',
-			nodeIcon: 'glyphicon glyphicon-stop',
-			selectedIcon: 'glyphicon glyphicon-selected',
-			checkedIcon: 'glyphicon glyphicon-checked-icon',
-			uncheckedIcon: 'glyphicon glyphicon-unchecked-icon',
+			expandIcon: 'fas fa-plus',
+			collapseIcon: 'fas fa-minus',
+			emptyIcon: 'fas',
+			nodeIcon: 'fas fa-stop',
+			selectedIcon: 'fas fa-mouse-pointer',
+			checkedIcon: 'far fa-check-square',
+			uncheckedIcon: 'far fa-square',
 			color: 'yellow',
 			backColor: 'purple',
 			borderColor: 'purple',
@@ -148,28 +148,28 @@
 			showCheckbox: true,
 			showTags: true,
 			multiSelect: true,
-			onNodeChecked: function () {},
-			onNodeCollapsed: function () {},
-			onNodeDisabled: function () {},
-			onNodeEnabled: function () {},
-			onNodeExpanded: function () {},
-			onNodeSelected: function () {},
-			onNodeUnchecked: function () {},
-			onNodeUnselected: function () {},
-			onSearchComplete: function () {},
-			onSearchCleared: function () {}
+			onNodeChecked: function () { },
+			onNodeCollapsed: function () { },
+			onNodeDisabled: function () { },
+			onNodeEnabled: function () { },
+			onNodeExpanded: function () { },
+			onNodeSelected: function () { },
+			onNodeUnchecked: function () { },
+			onNodeUnselected: function () { },
+			onSearchComplete: function () { },
+			onSearchCleared: function () { }
 		};
 
 		options = getOptions(init(opts));
 		ok(options, 'User options created ok');
 		equal(options.levels, 99, 'levels set ok');
-		equal(options.expandIcon, 'glyphicon glyphicon-expand', 'expandIcon set ok');
-		equal(options.collapseIcon, 'glyphicon glyphicon-collapse', 'collapseIcon set ok');
-		equal(options.emptyIcon, 'glyphicon', 'emptyIcon set ok');
-		equal(options.nodeIcon, 'glyphicon glyphicon-stop', 'nodeIcon set ok');
-		equal(options.selectedIcon, 'glyphicon glyphicon-selected', 'selectedIcon set ok');
-		equal(options.checkedIcon, 'glyphicon glyphicon-checked-icon', 'checkedIcon set ok');
-		equal(options.uncheckedIcon, 'glyphicon glyphicon-unchecked-icon', 'uncheckedIcon set ok');
+		equal(options.expandIcon, 'fas fa-plus', 'expandIcon set ok');
+		equal(options.collapseIcon, 'fas fa-minus', 'collapseIcon set ok');
+		equal(options.emptyIcon, 'fas', 'emptyIcon set ok');
+		equal(options.nodeIcon, 'fas fa-stop', 'nodeIcon set ok');
+		equal(options.selectedIcon, 'fas fa-mouse-pointer', 'selectedIcon set ok');
+		equal(options.checkedIcon, 'far fa-check-square', 'checkedIcon set ok');
+		equal(options.uncheckedIcon, 'far fa-square', 'uncheckedIcon set ok');
 		equal(options.color, 'yellow', 'color set ok');
 		equal(options.backColor, 'purple', 'backColor set ok');
 		equal(options.borderColor, 'purple', 'borderColor set ok');
@@ -199,7 +199,7 @@
 	});
 
 	test('Links enabled', function () {
-		init({enableLinks:true, data:data});
+		init({ enableLinks: true, data: data });
 		ok($('.list-group-item:first').children('a').length, 'Links are enabled');
 
 	});
@@ -208,7 +208,7 @@
 	module('Data');
 
 	test('Accepts JSON', function () {
-		var el = init({levels:1,data:json});
+		var el = init({ levels: 1, data: json });
 		equal($(el.selector + ' ul li').length, 5, 'Correct number of root nodes');
 
 	});
@@ -223,13 +223,13 @@
 
 	test('Correct initial levels shown', function () {
 
-		var el = init({levels:1,data:data});
+		var el = init({ levels: 1, data: data });
 		equal($(el.selector + ' ul li').length, 5, 'Correctly display 5 root nodes when levels set to 1');
 
-		el = init({levels:2,data:data});
+		el = init({ levels: 2, data: data });
 		equal($(el.selector + ' ul li').length, 7, 'Correctly display 5 root and 2 child nodes when levels set to 2');
 
-		el = init({levels:3,data:data});
+		el = init({ levels: 3, data: data });
 		equal($(el.selector + ' ul li').length, 9, 'Correctly display 5 root, 2 children and 2 grand children nodes when levels set to 3');
 	});
 
@@ -239,13 +239,13 @@
 		init({
 			data: data,
 			levels: 1,
-			onNodeExpanded: function(/*event, date*/) {
+			onNodeExpanded: function (/*event, date*/) {
 				cbWorked = true;
 			}
 		})
-		.on('nodeExpanded', function(/*event, date*/) {
-			onWorked = true;
-		});
+			.on('nodeExpanded', function (/*event, date*/) {
+				onWorked = true;
+			});
 
 		var nodeCount = $('.list-group-item').length;
 		var el = $('.expand-icon:first');
@@ -261,13 +261,13 @@
 		init({
 			data: data,
 			levels: 2,
-			onNodeCollapsed: function(/*event, date*/) {
+			onNodeCollapsed: function (/*event, date*/) {
 				cbWorked = true;
 			}
 		})
-		.on('nodeCollapsed', function(/*event, date*/) {
-			onWorked = true;
-		});
+			.on('nodeCollapsed', function (/*event, date*/) {
+				onWorked = true;
+			});
 
 		var nodeCount = $('.list-group-item').length;
 		var el = $('.expand-icon:first');
@@ -282,13 +282,13 @@
 		var cbWorked, onWorked = false;
 		var $tree = init({
 			data: data,
-			onNodeSelected: function(/*event, date*/) {
+			onNodeSelected: function (/*event, date*/) {
 				cbWorked = true;
 			}
 		})
-		.on('nodeSelected', function(/*event, date*/) {
-			onWorked = true;
-		});
+			.on('nodeSelected', function (/*event, date*/) {
+				onWorked = true;
+			});
 		var options = getOptions($tree);
 
 		// Simulate click
@@ -296,7 +296,7 @@
 
 		// Has class node-selected
 		ok($('.list-group-item:first').hasClass('node-selected'), 'Node is correctly selected : class "node-selected" added');
-		
+
 		// Only one can be selected
 		ok(($('.node-selected').length === 1), 'There is only one selected node');
 
@@ -314,13 +314,13 @@
 		var cbWorked, onWorked = false;
 		var $tree = init({
 			data: data,
-			onNodeUnselected: function(/*event, date*/) {
+			onNodeUnselected: function (/*event, date*/) {
 				cbWorked = true;
 			}
 		})
-		.on('nodeUnselected', function(/*event, date*/) {
-			onWorked = true;
-		});
+			.on('nodeUnselected', function (/*event, date*/) {
+				onWorked = true;
+			});
 		var options = getOptions($tree);
 
 		// First select a node
@@ -332,13 +332,13 @@
 
 		// Has class node-selected
 		ok(!$('.list-group-item:first').hasClass('node-selected'), 'Node is correctly unselected : class "node-selected" removed');
-		
+
 		// Only one can be selected
 		ok(($('.node-selected').length === 0), 'There are no selected nodes');
 
 		// Has correct icon
 		ok(!options.nodeIcon || $('.expand-icon:first').hasClass(options.nodeIcon), 'Node icon is correct');
-		
+
 		// Events triggered
 		ok(cbWorked, 'onNodeUnselected function was called');
 		ok(onWorked, 'nodeUnselected was fired');
@@ -370,13 +370,13 @@
 		init({
 			levels: 1,
 			data: testData,
-			onNodeSelected: function(/*event, date*/) {
+			onNodeSelected: function (/*event, date*/) {
 				cbCalled = true;
 			}
 		})
-		.on('nodeSelected', function(/*event, date*/) {
-			onCalled = true;
-		});
+			.on('nodeSelected', function (/*event, date*/) {
+				onCalled = true;
+			});
 
 		var nodeCount = $('.list-group-item').length;
 		var el = $('.list-group-item:first');
@@ -396,13 +396,13 @@
 		init({
 			levels: 2,
 			data: testData,
-			onNodeSelected: function(/*event, date*/) {
+			onNodeSelected: function (/*event, date*/) {
 				cbCalled = true;
 			}
 		})
-		.on('nodeSelected', function(/*event, date*/) {
-			onCalled = true;
-		});
+			.on('nodeSelected', function (/*event, date*/) {
+				onCalled = true;
+			});
 
 		var nodeCount = $('.list-group-item').length;
 		var el = $('.list-group-item:first');
@@ -422,13 +422,13 @@
 		var $tree = init({
 			data: data,
 			showCheckbox: true,
-			onNodeChecked: function(/*event, date*/) {
+			onNodeChecked: function (/*event, date*/) {
 				cbWorked = true;
 			}
 		})
-		.on('nodeChecked', function(/*event, date*/) {
-			onWorked = true;
-		});
+			.on('nodeChecked', function (/*event, date*/) {
+				onWorked = true;
+			});
 		var options = getOptions($tree);
 
 		// simulate click event on check icon
@@ -449,13 +449,13 @@
 		var $tree = init({
 			data: data,
 			showCheckbox: true,
-			onNodeUnchecked: function(/*event, date*/) {
+			onNodeUnchecked: function (/*event, date*/) {
 				cbWorked = true;
 			}
 		})
-		.on('nodeUnchecked', function(/*event, date*/) {
-			onWorked = true;
-		});
+			.on('nodeUnchecked', function (/*event, date*/) {
+				onWorked = true;
+			});
 		var options = getOptions($tree);
 
 		// first check a node
@@ -782,7 +782,7 @@
 		$tree.treeview('toggleNodeExpanded', 0);
 		equal($($tree.selector + ' ul li').length, 5, 'Toggle node (by id) works, 5 original nodes displayed');
 
-		$tree.treeview('expandNode', [ 0, { levels: 2 } ]);
+		$tree.treeview('expandNode', [0, { levels: 2 }]);
 		equal($($tree.selector + ' ul li').length, 9, 'Expand node (levels = 2, by id) works, 9 nodes displayed');
 
 		$tree = init({ data: data, levels: 1 });
@@ -801,7 +801,7 @@
 		$tree.treeview('toggleNodeExpanded', nodeParent1);
 		equal($($tree.selector + ' ul li').length, 5, 'Toggle node (by node) works, 5 original nodes displayed');
 
-		$tree.treeview('expandNode', [ nodeParent1, { levels: 2 } ]);
+		$tree.treeview('expandNode', [nodeParent1, { levels: 2 }]);
 		equal($($tree.selector + ' ul li').length, 9, 'Expand node (levels = 2, by node) works, 9 nodes displayed');
 	});
 
@@ -820,28 +820,28 @@
 		var cbWorked, onWorked = false;
 		var $tree = init({
 			data: data,
-			onSearchComplete: function(/*event, results*/) {
+			onSearchComplete: function (/*event, results*/) {
 				cbWorked = true;
 			}
 		})
-		.on('searchComplete', function(/*event, results*/) {
-			onWorked = true;
-		});
+			.on('searchComplete', function (/*event, results*/) {
+				onWorked = true;
+			});
 
 		// Case sensitive, exact match
-		var result = $tree.treeview('search', [ 'Parent 1', { ignoreCase: false, exactMatch: true } ]);
+		var result = $tree.treeview('search', ['Parent 1', { ignoreCase: false, exactMatch: true }]);
 		equal(result.length, 1, 'Search "Parent 1" case sensitive, exact match - returns 1 result');
 
 		// Case sensitive, like
-		result = $tree.treeview('search', [ 'Parent', { ignoreCase: false, exactMatch: false } ]);
+		result = $tree.treeview('search', ['Parent', { ignoreCase: false, exactMatch: false }]);
 		equal(result.length, 5, 'Search "Parent" case sensitive, exact match - returns 5 results');
 
 		// Case insensitive, exact match
-		result = $tree.treeview('search', [ 'parent 1', { ignoreCase: true, exactMatch: true } ]);
+		result = $tree.treeview('search', ['parent 1', { ignoreCase: true, exactMatch: true }]);
 		equal(result.length, 1, 'Search "parent 1" case insensitive, exact match - returns 1 result');
 
 		// Case insensitive, like
-		result = $tree.treeview('search', [ 'parent', { ignoreCase: true, exactMatch: false } ]);
+		result = $tree.treeview('search', ['parent', { ignoreCase: true, exactMatch: false }]);
 		equal(result.length, 5, 'Search "parent" case insensitive, exact match - returns 5 results')
 
 		// Check events fire
@@ -853,16 +853,16 @@
 		var cbWorked, onWorked = false;
 		var $tree = init({
 			data: data,
-			onSearchCleared: function(/*event, results*/) {
+			onSearchCleared: function (/*event, results*/) {
 				cbWorked = true;
 			}
 		})
-		.on('searchCleared', function(/*event, results*/) {
-			onWorked = true;
-		});
+			.on('searchCleared', function (/*event, results*/) {
+				onWorked = true;
+			});
 
 		// Check results are cleared
-		$tree.treeview('search', [ 'Parent 1', { ignoreCase: false, exactMatch: true } ]);
+		$tree.treeview('search', ['Parent 1', { ignoreCase: false, exactMatch: true }]);
 		equal($tree.find('.search-result').length, 1, 'Search results highlighted');
 		$tree.treeview('clearSearch');
 		equal($tree.find('.search-result').length, 0, 'Search results cleared');

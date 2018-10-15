@@ -17,7 +17,7 @@
  * limitations under the License.
  * ========================================================= */
 
-;(function ($, window, document, undefined) {
+; (function ($, window, document, undefined) {
 
   /*global jQuery, console*/
 
@@ -32,18 +32,18 @@
     injectStyle: true,
 
     levels: 2,
-    
+
     lazyLoad: false,
 
     readOnly: false,
 
-    expandIcon: 'glyphicon glyphicon-plus',
-    collapseIcon: 'glyphicon glyphicon-minus',
-    emptyIcon: 'glyphicon',
+    expandIcon: 'fas fa-plus',
+    collapseIcon: 'fas fa-minus',
+    emptyIcon: 'fas',
     nodeIcon: '',
     selectedIcon: '',
-    checkedIcon: 'glyphicon glyphicon-check',
-    uncheckedIcon: 'glyphicon glyphicon-unchecked',
+    checkedIcon: 'far fa-check-square',
+    uncheckedIcon: 'far fa-square',
 
     color: undefined, // '#000000',
     backColor: undefined, // '#FFFFFF',
@@ -88,21 +88,21 @@
   };
 
   var Tree = function (element, options) {
-	  this.keys = {
-	            tab:      9,
-	            enter:    13,
-	            space:    32,
-	            pageup:   33,
-	            pagedown: 34,
-	            end:      35,
-	            home:     36,
-	            left:     37,
-	            up:       38,
-	            right:    39,
-	            down:     40
-	   };
-	
-	this.$visibleItems = null; // holds a jQuery array of the currently visible items in the tree
+    this.keys = {
+      tab: 9,
+      enter: 13,
+      space: 32,
+      pageup: 33,
+      pagedown: 34,
+      end: 35,
+      home: 36,
+      left: 37,
+      up: 38,
+      right: 39,
+      down: 40
+    };
+
+    this.$visibleItems = null; // holds a jQuery array of the currently visible items in the tree
 
     this.$element = $(element);
     this.elementId = element.id;
@@ -222,14 +222,14 @@
   };
 
   Tree.prototype.subscribeEvents = function () {
-	  var thisObj = this;
+    var thisObj = this;
 
     this.unsubscribeEvents();
 
     this.$element.on('click', $.proxy(this.clickHandler, this));
-    
-    this.$element.on('keydown', function(e) {
-        return thisObj.handleKeyDown($(this), e);
+
+    this.$element.on('keydown', function (e) {
+      return thisObj.handleKeyDown($(this), e);
     });
 
     if (typeof (this.options.onNodeChecked) === 'function') {
@@ -338,171 +338,171 @@
       }
     });
   };
-  
-  Tree.prototype.handleKeyDown = function(targetDiv, e) {
-	  var $item = $(e.target);
-	  
-	  var selectionOptions = this.options;
-	  selectionOptions.setSelectedFocus = true;
 
-	  if ((e.altKey || e.ctrlKey) || (e.shiftKey && e.keyCode != this.keys.tab)) {
-		  // do nothing
-		  return true;
-	  }
-	  
-	  var curNdx = this.$visibleItems.index($item);
+  Tree.prototype.handleKeyDown = function (targetDiv, e) {
+    var $item = $(e.target);
 
-	  switch (e.keyCode) {
-	  	//TODO: not working yet... (shift-tab fails to go back to search box??)   
-	  	case this.keys.tab: {
-	         return true;
-	      }
-	      case this.keys.home: { // jump to first item in tree
-	    	  var firstItem = this.$visibleItems.first();
-	    	  var firstNode = this.findNode(firstItem);	    		
-	    	  this.selectNode(firstNode, selectionOptions);
-	
-		      e.stopPropagation();
-		      return false;
-	      }
-		case this.keys.end: { // jump to last visible item
-			var lastItem = this.$visibleItems.last();
-    		var lastNode = this.findNode(lastItem);	    		
-    		this.selectNode(lastNode, selectionOptions);
-			
-			e.stopPropagation();
-			return false;
-		}
-	    case this.keys.enter:
-	    case this.keys.space: {
-	      if (!$item.is('.tree-parent')) {
-	        // do nothing
-	      } else {
-	    	  var nodeToToggle = this.findNode($item);
-	    	  this.toggleNode($item.children("." + this.options.emptyIcon), nodeToToggle, {setSelectedFocus: true});
-	      }
+    var selectionOptions = this.options;
+    selectionOptions.setSelectedFocus = true;
 
-	      e.stopPropagation();
-	      return false;
-	    }
-	    case this.keys.left: {	      
-    		var currentNode = this.findNode($item);
-	    	if ($item.is('.tree-parent') && $item.attr('aria-expanded') == 'true') {
-	    		// collapse the group and return  
-	    		this.toggleNode($item.children("." + this.options.emptyIcon), currentNode, {setSelectedFocus: true});
-	    	} else {
-	    		var parentNode = this.getParent(currentNode.nodeId);
-	    		this.selectNode(parentNode, selectionOptions);
-	        }
-	
-	    	e.stopPropagation();
-		    return false;
-	    }
-	    case this.keys.right: {	   
-    		var node = this.findNode($item);   
-	    	if (!$item.is('.tree-parent')) {
-	    		// do nothing
-	    	} else if ($item.attr('aria-expanded') == 'false') {
-	    		this.toggleNode($item.children("." + this.options.emptyIcon), node, {setSelectedFocus: true});
-	    	} else {
-	    		var childNodes = this.findNodes(node.nodeId.toString(), "g", "parentId");
-	    		this.selectNode(childNodes[0], selectionOptions);
-	        }
+    if ((e.altKey || e.ctrlKey) || (e.shiftKey && e.keyCode != this.keys.tab)) {
+      // do nothing
+      return true;
+    }
 
-	    	e.stopPropagation();
-	    	return false;
-	    }
-	    case this.keys.up: {
-	    	if (curNdx > 0) {
-	    		var $prev = this.$visibleItems.eq(curNdx - 1);
-	    		var prevNode = this.findNode($prev);	    		
-	    		this.selectNode(prevNode, selectionOptions);
-	    	}
+    var curNdx = this.$visibleItems.index($item);
 
-	    	e.stopPropagation();
-	    	return false;
-	    }
-	    case this.keys.down: {
-	    	if (curNdx < this.$visibleItems.length - 1) {
-	    		var $next = this.$visibleItems.eq(curNdx + 1);
-	    		var nextNode = this.findNode($next);	    		
-	    		this.selectNode(nextNode, selectionOptions);
-	    	}
-	    	e.stopPropagation();
-	    	return false;
-	    }
-	  }
+    switch (e.keyCode) {
+      //TODO: not working yet... (shift-tab fails to go back to search box??)   
+      case this.keys.tab: {
+        return true;
+      }
+      case this.keys.home: { // jump to first item in tree
+        var firstItem = this.$visibleItems.first();
+        var firstNode = this.findNode(firstItem);
+        this.selectNode(firstNode, selectionOptions);
 
-	  return true;
+        e.stopPropagation();
+        return false;
+      }
+      case this.keys.end: { // jump to last visible item
+        var lastItem = this.$visibleItems.last();
+        var lastNode = this.findNode(lastItem);
+        this.selectNode(lastNode, selectionOptions);
+
+        e.stopPropagation();
+        return false;
+      }
+      case this.keys.enter:
+      case this.keys.space: {
+        if (!$item.is('.tree-parent')) {
+          // do nothing
+        } else {
+          var nodeToToggle = this.findNode($item);
+          this.toggleNode($item.children("." + this.options.emptyIcon), nodeToToggle, { setSelectedFocus: true });
+        }
+
+        e.stopPropagation();
+        return false;
+      }
+      case this.keys.left: {
+        var currentNode = this.findNode($item);
+        if ($item.is('.tree-parent') && $item.attr('aria-expanded') == 'true') {
+          // collapse the group and return  
+          this.toggleNode($item.children("." + this.options.emptyIcon), currentNode, { setSelectedFocus: true });
+        } else {
+          var parentNode = this.getParent(currentNode.nodeId);
+          this.selectNode(parentNode, selectionOptions);
+        }
+
+        e.stopPropagation();
+        return false;
+      }
+      case this.keys.right: {
+        var node = this.findNode($item);
+        if (!$item.is('.tree-parent')) {
+          // do nothing
+        } else if ($item.attr('aria-expanded') == 'false') {
+          this.toggleNode($item.children("." + this.options.emptyIcon), node, { setSelectedFocus: true });
+        } else {
+          var childNodes = this.findNodes(node.nodeId.toString(), "g", "parentId");
+          this.selectNode(childNodes[0], selectionOptions);
+        }
+
+        e.stopPropagation();
+        return false;
+      }
+      case this.keys.up: {
+        if (curNdx > 0) {
+          var $prev = this.$visibleItems.eq(curNdx - 1);
+          var prevNode = this.findNode($prev);
+          this.selectNode(prevNode, selectionOptions);
+        }
+
+        e.stopPropagation();
+        return false;
+      }
+      case this.keys.down: {
+        if (curNdx < this.$visibleItems.length - 1) {
+          var $next = this.$visibleItems.eq(curNdx + 1);
+          var nextNode = this.findNode($next);
+          this.selectNode(nextNode, selectionOptions);
+        }
+        e.stopPropagation();
+        return false;
+      }
+    }
+
+    return true;
   };
 
-  Tree.prototype.clickHandler = function(event) {
-	  if (!this.options.enableLinks) event.preventDefault();
+  Tree.prototype.clickHandler = function (event) {
+    if (!this.options.enableLinks) event.preventDefault();
 
-	  var target = $(event.target);
-	  var node = this.findNode(target);
-	  if (!node || node.state.disabled || this.options.readOnly) {
-		  return;
-	  }
-	  
-	  this.toggleNode(target, node);
+    var target = $(event.target);
+    var node = this.findNode(target);
+    if (!node || node.state.disabled || this.options.readOnly) {
+      return;
+    }
+
+    this.toggleNode(target, node);
   };
-  
-  Tree.prototype.toggleNode = function(target, node, options) {
-	  options = options || {};
-	  var selectedNode = node;
-	  var classList = target.attr('class') ? target.attr('class').split(' ') : [];
-	  if ((classList.indexOf('expand-icon') !== -1)) {    	
-		  if (this.options.lazyLoad) {
-			  var bareBonesLazyLoadFunction = function(parentNode, callback, options){callback(parentNode, [], options);};
-			  this.options.lazyLoadFunction = (typeof this.options.lazyLoadFunction === 'function') ? this.options.lazyLoadFunction : bareBonesLazyLoadFunction;
-			  this.forEachIdentifier(node, options, $.proxy(function (node, options) {
-				  // we haven't loaded this node's children before, and it didn't have child nodes from the initial population
-				  if (!node.loaded && !(node.nodes && node.nodes.length)){        			
-					  var lazyLoadTreeviewCallback = $.proxy(function(parentNode, childNodes) {
-						  if (childNodes && childNodes.length) {
-							  for (var n=0; n < childNodes.length; n++) {
-								  parentNode.nodes[n] = childNodes[n];
-							  }
-						  } else {
-							  // there are no children, so let's no longer make this expandable...
-							  delete parentNode.nodes;
-						  }
-						  node.loaded = true;
-						  this.setInitialStates({ nodes: this.tree }, 0);
-						  if (node === selectedNode && node.selectable) {
-							  this.setSelectedState(node, true, _default.options);
-						  }	  
-						  this.toggleExpandedState(node, _default.options);
-						  this.render(options);
-					  }, this);
-					
-					  this.options.lazyLoadFunction(node, lazyLoadTreeviewCallback, options);
-				  } else {
-					  if (node === selectedNode && node.selectable) {
-						  this.setSelectedState(node, true, _default.options);
-					  }	
-					  this.toggleExpandedState(node, _default.options);
-					  this.render(options);
-				  }
-			  }, this));
-		  } else {
-			  this.toggleExpandedState(node, _default.options);
-			  this.render(options);
-		  }
-	  } else if ((classList.indexOf('check-icon') !== -1)) {
-		  this.toggleCheckedState(node, _default.options);
-		  this.render(options);
-	  } else {
-		  if (node.selectable) {
-			  this.toggleSelectedState(node, _default.options);
-		  } else {
-			  // only the plus/minus should toggle the expanded state
-			  //this.toggleExpandedState(node, _default.options);
-		  }
 
-		  this.render(options);
-	  }
+  Tree.prototype.toggleNode = function (target, node, options) {
+    options = options || {};
+    var selectedNode = node;
+    var classList = target.attr('class') ? target.attr('class').split(' ') : [];
+    if ((classList.indexOf('expand-icon') !== -1)) {
+      if (this.options.lazyLoad) {
+        var bareBonesLazyLoadFunction = function (parentNode, callback, options) { callback(parentNode, [], options); };
+        this.options.lazyLoadFunction = (typeof this.options.lazyLoadFunction === 'function') ? this.options.lazyLoadFunction : bareBonesLazyLoadFunction;
+        this.forEachIdentifier(node, options, $.proxy(function (node, options) {
+          // we haven't loaded this node's children before, and it didn't have child nodes from the initial population
+          if (!node.loaded && !(node.nodes && node.nodes.length)) {
+            var lazyLoadTreeviewCallback = $.proxy(function (parentNode, childNodes) {
+              if (childNodes && childNodes.length) {
+                for (var n = 0; n < childNodes.length; n++) {
+                  parentNode.nodes[n] = childNodes[n];
+                }
+              } else {
+                // there are no children, so let's no longer make this expandable...
+                delete parentNode.nodes;
+              }
+              node.loaded = true;
+              this.setInitialStates({ nodes: this.tree }, 0);
+              if (node === selectedNode && node.selectable) {
+                this.setSelectedState(node, true, _default.options);
+              }
+              this.toggleExpandedState(node, _default.options);
+              this.render(options);
+            }, this);
+
+            this.options.lazyLoadFunction(node, lazyLoadTreeviewCallback, options);
+          } else {
+            if (node === selectedNode && node.selectable) {
+              this.setSelectedState(node, true, _default.options);
+            }
+            this.toggleExpandedState(node, _default.options);
+            this.render(options);
+          }
+        }, this));
+      } else {
+        this.toggleExpandedState(node, _default.options);
+        this.render(options);
+      }
+    } else if ((classList.indexOf('check-icon') !== -1)) {
+      this.toggleCheckedState(node, _default.options);
+      this.render(options);
+    } else {
+      if (node.selectable) {
+        this.toggleSelectedState(node, _default.options);
+      } else {
+        // only the plus/minus should toggle the expanded state
+        //this.toggleExpandedState(node, _default.options);
+      }
+
+      this.render(options);
+    }
   };
 
   // Looks up the DOM for the closest parent list item to retrieve the
@@ -643,7 +643,7 @@
   };
 
   Tree.prototype.render = function (options) {
-	  options = options || {};
+    options = options || {};
 
     if (!this.initialized) {
 
@@ -664,7 +664,7 @@
     this.$visibleItems = this.$element.find('li:visible');
     // set focus on selected item if specified
     if (options.hasOwnProperty("setSelectedFocus") && options.setSelectedFocus) {
-    	this.$element.find('li.node-selected').focus();
+      this.$element.find('li.node-selected').focus();
     }
   };
 
@@ -682,7 +682,7 @@
         .addClass(node.nodes ? 'tree-parent' : '')
         .addClass('node-' + _this.elementId)
         .addClass(node.state.checked ? 'node-checked' : '')
-        .addClass(node.state.disabled ? 'node-disabled': '')
+        .addClass(node.state.disabled ? 'node-disabled' : '')
         .addClass(_this.options.readOnly ? 'node-readonly' : '')
         .addClass(node.state.selected ? 'node-selected' : '')
         .addClass(node.searchResult ? 'search-result' : '')
@@ -698,7 +698,7 @@
 
       // Add expand, collapse or empty spacer icons
       var classList = [];
-      if (node.nodes) { 
+      if (node.nodes) {
         classList.push('expand-icon');
         if (node.state.expanded) {
           classList.push(_this.options.collapseIcon);
@@ -863,7 +863,7 @@
     indent: '<span class="indent"></span>',
     icon: '<span class="icon"></span>',
     link: '<a href="#" style="color:inherit;"></a>',
-    badge: '<span class="badge"></span>'
+    badge: '<span class="badge badge-pill badge-secondary float-right m-2"></span>'
   };
 
   Tree.prototype.css = '.treeview .list-group-item{cursor:pointer}.treeview span.indent{margin-left:10px;margin-right:10px}.treeview span.icon{width:12px;margin-right:5px}.treeview .node-disabled{color:silver;cursor:not-allowed}.treeview .node-readonly{color:silver;cursor:not-allowed}';
@@ -1062,7 +1062,7 @@
     this.forEachIdentifier(identifiers, options, $.proxy(function (node, options) {
       this.setExpandedState(node, true, options);
       if (node.nodes && (options && options.levels)) {
-        this.expandLevels(node.nodes, options.levels-1, options);
+        this.expandLevels(node.nodes, options.levels - 1, options);
       }
     }, this));
 
@@ -1075,7 +1075,7 @@
     $.each(nodes, $.proxy(function (index, node) {
       this.setExpandedState(node, (level > 0) ? true : false, options);
       if (node.nodes) {
-        this.expandLevels(node.nodes, level-1, options);
+        this.expandLevels(node.nodes, level - 1, options);
       }
     }, this));
   };
@@ -1283,7 +1283,7 @@
     if (pattern && pattern.length > 0) {
 
       if (options.exactMatch) {
-    	// need to escape special characters potentially in the node value  
+        // need to escape special characters potentially in the node value  
         pattern = '^' + pattern.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&") + '$';
       }
 
@@ -1402,7 +1402,7 @@
         }
         else {
           if (!(args instanceof Array)) {
-            args = [ args ];
+            args = [args];
           }
           result = _this[options].apply(_this, args);
         }
