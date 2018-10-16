@@ -7,6 +7,5 @@ node_js:
 before_script:
   - npm install -g grunt-cli
   - npm install
-  - bower install
 
 script: grunt test --verbose --force
