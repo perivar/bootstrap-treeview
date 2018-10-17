@@ -23,7 +23,7 @@ module.exports = function(grunt) {
     },
 
     qunit: {
-        all: ['tests/*.html-disabled']
+        all: ['tests/*.html']
     },
 
     watch: {

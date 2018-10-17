@@ -19,7 +19,6 @@
     "dist/bootstrap-treeview.min.css"
   ],
   "scripts": {
-    "install": "grunt copy",
     "start": "node app",
     "test": "grunt test"
   },
