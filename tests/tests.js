@@ -208,8 +208,7 @@
 
 	QUnit.test('Accepts JSON', function (assert) {
 		var el = init({ levels: 1, data: json });
-		var test = el.filter(".list-group-item");
-		assert.equal($(el.selector + ' ul li').length, 5, 'Correct number of root nodes');
+		assert.equal(el.find("ul li").length, 5, 'Correct number of root nodes');
 	});
 
 	QUnit.module('Behaviour');
@@ -222,13 +221,13 @@
 	QUnit.test('Correct initial levels shown', function (assert) {
 
 		var el = init({ levels: 1, data: data });
-		assert.equal($(el.selector + ' ul li').length, 5, 'Correctly display 5 root nodes when levels set to 1');
+		assert.equal(el.find("ul li").length, 5, 'Correctly display 5 root nodes when levels set to 1');
 
 		el = init({ levels: 2, data: data });
-		assert.equal($(el.selector + ' ul li').length, 7, 'Correctly display 5 root and 2 child nodes when levels set to 2');
+		assert.equal(el.find("ul li").length, 7, 'Correctly display 5 root and 2 child nodes when levels set to 2');
 
 		el = init({ levels: 3, data: data });
-		assert.equal($(el.selector + ' ul li').length, 9, 'Correctly display 5 root, 2 children and 2 grand children nodes when levels set to 3');
+		assert.equal(el.find("ul li").length, 9, 'Correctly display 5 root, 2 children and 2 grand children nodes when levels set to 3');
 	});
 
 	QUnit.test('Expanding a node', function (assert) {
@@ -364,7 +363,8 @@
 		var testData = $.extend(true, {}, data);
 		testData[0].selectable = false;
 
-		var cbCalled, onCalled = false;
+		var cbCalled = false;
+		var onCalled = false;
 		init({
 			levels: 1,
 			data: testData,
@@ -390,7 +390,8 @@
 		var testData = $.extend(true, {}, data);
 		testData[0].selectable = false;
 
-		var cbCalled, onCalled = false;
+		var cbCalled = false;
+		var onCalled = false;
 		init({
 			levels: 2,
 			data: testData,
@@ -598,10 +599,10 @@
 		var $tree = init({ data: data, levels: 1 });
 
 		$tree.treeview('disableAll');
-		assert.equal($($tree.selector + ' ul li.node-disabled').length, 5, 'Disable all works, 9 nodes with node-disabled class');
+		assert.equal($tree.find('ul li.node-disabled').length, 5, 'Disable all works, 9 nodes with node-disabled class');
 
 		$tree.treeview('enableAll');
-		assert.equal($($tree.selector + ' ul li.node-disabled').length, 0, 'Check all works, 9 nodes non with node-disabled class');
+		assert.equal($tree.find('ul li.node-disabled').length, 0, 'Check all works, 9 nodes non with node-disabled class');
 	});
 
 	QUnit.test('disableNode / enableNode', function (assert) {
@@ -650,12 +651,12 @@
 		var $tree = init({ data: data, levels: 3, showCheckbox: true });
 
 		$tree.treeview('checkAll');
-		assert.equal($($tree.selector + ' ul li.node-checked').length, 9, 'Check all works, 9 nodes with node-checked class');
-		assert.equal($($tree.selector + ' ul li .glyphicon-check').length, 9, 'Check all works, 9 nodes with glyphicon-check icon');
+		assert.equal($tree.find('ul li.node-checked').length, 9, 'Check all works, 9 nodes with node-checked class');
+		assert.equal($tree.find('ul li .fa-check-square').length, 9, 'Check all works, 9 nodes with fa-check-square icon');
 
 		$tree.treeview('uncheckAll');
-		assert.equal($($tree.selector + ' ul li.node-checked').length, 0, 'Check all works, 9 nodes non with node-checked class');
-		assert.equal($($tree.selector + ' ul li .glyphicon-unchecked').length, 9, 'Check all works, 9 nodes with glyphicon-unchecked icon');
+		assert.equal($tree.find('ul li.node-checked').length, 0, 'Check all works, 9 nodes non with node-checked class');
+		assert.equal($tree.find('ul li .fa-square').length, 9, 'Check all works, 9 nodes with fa-square icon');
 	});
 
 	QUnit.test('checkNode / uncheckNode', function (assert) {
@@ -752,66 +753,66 @@
 
 	QUnit.test('expandAll / collapseAll', function (assert) {
 		var $tree = init({ data: data, levels: 1 });
-		assert.equal($($tree.selector + ' ul li').length, 5, 'Starts in collapsed state, 5 root nodes displayed');
+		assert.equal($tree.find('ul li').length, 5, 'Starts in collapsed state, 5 root nodes displayed');
 
 		$tree.treeview('expandAll');
-		assert.equal($($tree.selector + ' ul li').length, 9, 'Expand all works, all 9 nodes displayed');
+		assert.equal($tree.find('ul li').length, 9, 'Expand all works, all 9 nodes displayed');
 
 		$tree.treeview('collapseAll');
-		assert.equal($($tree.selector + ' ul li').length, 5, 'Collapse all works, 5 original root nodes displayed');
+		assert.equal($tree.find('ul li').length, 5, 'Collapse all works, 5 original root nodes displayed');
 
 		$tree.treeview('expandAll', { levels: 1 });
-		assert.equal($($tree.selector + ' ul li').length, 7, 'Expand all (levels = 1) works, correctly displayed 7 nodes');
+		assert.equal($tree.find('ul li').length, 7, 'Expand all (levels = 1) works, correctly displayed 7 nodes');
 	});
 
 	QUnit.test('expandNode / collapseNode / toggleExpanded', function (assert) {
 		var $tree = init({ data: data, levels: 1 });
-		assert.equal($($tree.selector + ' ul li').length, 5, 'Starts in collapsed state, 5 root nodes displayed');
+		assert.equal($tree.find('ul li').length, 5, 'Starts in collapsed state, 5 root nodes displayed');
 
 		$tree.treeview('expandNode', 0);
-		assert.equal($($tree.selector + ' ul li').length, 7, 'Expand node (by id) works, 7 nodes displayed');
+		assert.equal($tree.find('ul li').length, 7, 'Expand node (by id) works, 7 nodes displayed');
 
 		$tree.treeview('collapseNode', 0);
-		assert.equal($($tree.selector + ' ul li').length, 5, 'Collapse node (by id) works, 5 original nodes displayed');
+		assert.equal($tree.find('ul li').length, 5, 'Collapse node (by id) works, 5 original nodes displayed');
 
 		$tree.treeview('toggleNodeExpanded', 0);
-		assert.equal($($tree.selector + ' ul li').length, 7, 'Toggle node (by id) works, 7 nodes displayed');
+		assert.equal($tree.find('ul li').length, 7, 'Toggle node (by id) works, 7 nodes displayed');
 
 		$tree.treeview('toggleNodeExpanded', 0);
-		assert.equal($($tree.selector + ' ul li').length, 5, 'Toggle node (by id) works, 5 original nodes displayed');
+		assert.equal($tree.find('ul li').length, 5, 'Toggle node (by id) works, 5 original nodes displayed');
 
 		$tree.treeview('expandNode', [0, { levels: 2 }]);
-		assert.equal($($tree.selector + ' ul li').length, 9, 'Expand node (levels = 2, by id) works, 9 nodes displayed');
+		assert.equal($tree.find('ul li').length, 9, 'Expand node (levels = 2, by id) works, 9 nodes displayed');
 
 		$tree = init({ data: data, levels: 1 });
-		assert.equal($($tree.selector + ' ul li').length, 5, 'Reset to collapsed state, 5 root nodes displayed');
+		assert.equal($tree.find('ul li').length, 5, 'Reset to collapsed state, 5 root nodes displayed');
 
 		var nodeParent1 = $tree.treeview('getNode', 0);
 		$tree.treeview('expandNode', nodeParent1);
-		assert.equal($($tree.selector + ' ul li').length, 7, 'Expand node (by node) works, 7 nodes displayed');
+		assert.equal($tree.find('ul li').length, 7, 'Expand node (by node) works, 7 nodes displayed');
 
 		$tree.treeview('collapseNode', nodeParent1);
-		assert.equal($($tree.selector + ' ul li').length, 5, 'Collapse node (by node) works, 5 original nodes displayed');
+		assert.equal($tree.find('ul li').length, 5, 'Collapse node (by node) works, 5 original nodes displayed');
 
 		$tree.treeview('toggleNodeExpanded', nodeParent1);
-		assert.equal($($tree.selector + ' ul li').length, 7, 'Toggle node (by node) works, 7 nodes displayed');
+		assert.equal($tree.find('ul li').length, 7, 'Toggle node (by node) works, 7 nodes displayed');
 
 		$tree.treeview('toggleNodeExpanded', nodeParent1);
-		assert.equal($($tree.selector + ' ul li').length, 5, 'Toggle node (by node) works, 5 original nodes displayed');
+		assert.equal($tree.find('ul li').length, 5, 'Toggle node (by node) works, 5 original nodes displayed');
 
 		$tree.treeview('expandNode', [nodeParent1, { levels: 2 }]);
-		assert.equal($($tree.selector + ' ul li').length, 9, 'Expand node (levels = 2, by node) works, 9 nodes displayed');
+		assert.equal($tree.find('ul li').length, 9, 'Expand node (levels = 2, by node) works, 9 nodes displayed');
 	});
 
 	QUnit.test('revealNode', function (assert) {
 		var $tree = init({ data: data, levels: 1 });
 
 		$tree.treeview('revealNode', 1); // Child_1
-		assert.equal($($tree.selector + ' ul li').length, 7, 'Reveal node (by id) works, reveal Child 1 and 7 nodes displayed');
+		assert.equal($tree.find('ul li').length, 7, 'Reveal node (by id) works, reveal Child 1 and 7 nodes displayed');
 
 		var nodeGrandchild1 = $tree.treeview('getNode', 2); // Grandchild 1
 		$tree.treeview('revealNode', nodeGrandchild1);
-		assert.equal($($tree.selector + ' ul li').length, 9, 'Reveal node (by node) works, reveal Grandchild 1 and 9 nodes displayed');
+		assert.equal($tree.find('ul li').length, 9, 'Reveal node (by node) works, reveal Grandchild 1 and 9 nodes displayed');
 	});
 
 	QUnit.test('search', function (assert) {
